@@ -2,38 +2,70 @@
 
 <html>
 
-	<head>
-		<title>Clementine.js - The elegant and lightweight full stack JavaScript boilerplate.</title>
-		
-		<link href="/public/css/main.css" rel="stylesheet" type="text/css">
-	</head>
+<head>
+  <title>Richie's Book Club - FreeCodeCamp</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
-	<header>
-		<p>Welcome, <span id="display-name"></span>!</p>
-		<a class="menu" href="/profile">Profile</a>
-		<p>|</p>
-		<a class="menu" href="/logout">Logout</a>
-	</header>
 
-	<body>
-		<div class="container">
-			<img src="/public/img/clementine_150.png" />
-			<br />
-			<p class="clementine-text">Clementine.js</p>
-		</div>
-	
-		<div class="container">
-			<p>You have clicked the button <span id="click-nbr"></span> times.</p>
-			<br />
-			<div class="btn-container">
-				<button type="submit" class="btn btn-add">CLICK ME!</button>
-				<button class="btn btn-delete">RESET</button>
-			</div>
-		</div>
-		
-		<script type="text/javascript" src="common/ajax-functions.js"></script>
-		<script type="text/javascript" src="controllers/clickController.client.js"></script>
-		<script type="text/javascript" src="controllers/userController.client.js"></script>
-	</body>
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link href="/public/css/main.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+
+<body>
+  <!--begin nav menu -->
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <a class="navbar-brand" href="/">Richie's Book Club</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="main-navbar-collapse">
+
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/">Home</a></li>
+          <li id="profileLink"></li>
+          <li id="loginButton"><a href="/">Login</a></li>
+          <li id="newPollLink"></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!--end nav menu -->
+  <div class="jumbotron text-center home main-section">
+    <div class="container">
+      <h1>Richie's Book Club</h1>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <h3>Richie's Book Club Features Include:</h3>
+      <ul id="club-features" class="list-group">
+        <li class="list-group-item">Catalog your book collection online</li>
+        <li class="list-group-item">Browse all of the books in our community</li>
+        <li class="list-group-item">Request to borrow other users' books</li>
+        <li class="list-group-item">Easily manage books and requests from your dashboard</li>
+      </ul>
+
+    </div>
+  </div>
+  <div id="error"></div>
+
+  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+  <script type="text/javascript" src="common/ajax-functions.js"></script>
+  <script type="text/javascript" src="controllers/stockController.client.js"></script>
+</body>
 
 </html>
