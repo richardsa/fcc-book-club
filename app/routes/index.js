@@ -2,7 +2,7 @@
 
 var path = process.cwd();
 var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
-
+var BookHandler  = require(path + '/app/controllers/bookHandler.server.js');
 module.exports = function (app, passport) {
 
 	function isLoggedIn (req, res, next) {
@@ -14,11 +14,19 @@ module.exports = function (app, passport) {
 	}
 
 	var clickHandler = new ClickHandler();
+	var bookHandler = new BookHandler();
 
 	app.route('/')
 		.get(function (req, res) {
 			res.sendFile(path + '/public/index.html');
 		});
+	app.route('/search')
+	.get(function (req, res) {
+			res.sendFile(path + '/public/search.html');
+		});
+	
+	app.route('/testing')
+		.get(bookHandler.searchBooks)
 
 	app.route('/login')
 		.get(function (req, res) {

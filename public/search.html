@@ -50,19 +50,32 @@
     </div>
   </div>
   <div class="container">
-    <div class="row">
-      <h3>Richie's Book Club Features Include:</h3>
-      <ul id="club-features" class="list-group">
-        <li class="list-group-item">Catalog your book collection online</li>
-        <li class="list-group-item">Browse all of the books in our community</li>
-        <li class="list-group-item">Request to borrow other users' books</li>
-        <li class="list-group-item">Easily manage books and requests from your dashboard</li>
-      </ul>
+        <div class="row">
+            <h3>Find books to add to your collection!</h3>
 
-    </div>
-  </div>
+            <form name="stockForm" id="stockForm" action="">
+                <div class="col-xs-9">
+                    <div class="form-group">
+
+
+                        <label for="searchInput" class="sr-only">search terms</label>
+                        <input type="text" name="searchInput" class="form-control" id="searchInput" placeholder="Search by title">
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+
+                        <button id="searchSubmit1" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+  <div class="row">
   <div id="error"></div>
-
+  <div id="searchResults"></div>
+</div>
+</div>
  
   <script type="text/javascript" src="common/ajax-functions.js"></script>
 
