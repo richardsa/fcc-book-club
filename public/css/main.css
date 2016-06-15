@@ -15,13 +15,13 @@ body {
   background-color: #4393B9;
   color: #ffffff;
 }
-#login-btn:hover, #logout-btn:hover, #home-btn:hover {
+#login-btn:hover, #logout-btn:hover, #home-btn:hover, #edit-btn:hover {
   color: white;
   font-weight: 900;
   text-decoration: none;
   background-color: #000080;
 }
-#login-btn, #logout-btn, #home-btn {
+#login-btn, #logout-btn, #home-btn, #edit-btn {
   min-width:100px;
   background-color: #4393B9;
   margin-left: 10px;

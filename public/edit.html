@@ -42,34 +42,42 @@
 		</div>
 	</nav>
 	<!--end nav menu -->
-	<div class="text-center home main-section">
+	<div class="home main-section">
 		<div class="container">
-			<div class="github-profile">
-				<img src="/public/img/gh-mark-32px.png" alt="github logo" />
-				<p><span>ID: </span><span id="profile-id" class="profile-value"></span></p>
-				<p><span>Username: </span><span id="profile-username" class="profile-value"></span></p>
-				<p><span>Display Name: </span><span id="display-name" class="profile-value"></span></p>
-				<p><span>Repositories: </span><span id="profile-repos" class="profile-value"></span></p>
-				<div class="row">
-					<a href="/">
-						<div class="btn" id="home-btn">
-							<p>Home</p>
-						</div>
-					</a>
-				
-					<a href="/logout">
-						<div class="btn" id="logout-btn">
-							<p>Logout</p>
-						</div>
-					</a>
-					
-					<a href="/edit">
-						<div class="btn" id="edit-btn">
-							<p>Edit Profile</p>
-						</div>
-					</a>
-				</div>
-			</div>
+		    <h3 class="text-center">Update your profile:</h3>
+			   <form name="editForm" id="editForm" action="">
+                <div class="col-xs-12">
+                    <div class="form-group">
+
+
+                        <label for="userName">User Name:</label>
+                        <input type="text" name="userName" class="form-control" id="userName" placeholder="Enter your updated name:">
+                    </div>
+                </div>
+                 <div class="col-xs-12">
+                    <div class="form-group">
+
+
+                        <label for="userCity">City</label>
+                        <input type="text" name="userCity" class="form-control" id="userCity" placeholder="Enter your updated city:">
+                    </div>
+                </div>
+                 <div class="col-xs-12">
+                    <div class="form-group">
+
+
+                        <label for="userState">State</label>
+                        <input type="text" name="userState" class="form-control" id="userState" placeholder="Enter your updated state:">
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+
+                        <button id="updateSubmit" class="btn btn-primary">Update Profile</button>
+                    </div>
+                </div>
+
+            </form>
 		</div>
 	</div>
 

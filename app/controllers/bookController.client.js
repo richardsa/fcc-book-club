@@ -34,12 +34,12 @@
     }
 
     //get search results
-    $("form").bind('submit', function(e) {
+    $("#searchForm").bind('submit', function(e) {
         e.stopImmediatePropagation();
         e.preventDefault();
         var bookTitle = $("#searchInput").val();
 
-        ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', appUrl + "/testing/?title=" + bookTitle, getSearchResults));
+        ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', appUrl + "/search/api/?title=" + bookTitle, getSearchResults));
         $("#searchInput").val('');
 
         return false;

@@ -3,6 +3,7 @@
 var path = process.cwd();
 var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
 var BookHandler = require(path + '/app/controllers/bookHandler.server.js');
+var UserHandler = require(path + '/app/controllers/userHandler.server.js');
 module.exports = function(app, passport) {
 
   function isLoggedIn(req, res, next) {
@@ -18,6 +19,7 @@ module.exports = function(app, passport) {
 
   var clickHandler = new ClickHandler();
   var bookHandler = new BookHandler();
+  var userHandler = new UserHandler();
 
   app.route('/')
     .get(function(req, res) {
@@ -29,13 +31,21 @@ module.exports = function(app, passport) {
       res.sendFile(path + '/public/search.html');
     });
 
-  app.route('/testing')
-    .get(bookHandler.searchBooks)
+  app.route('/search/api')
+    .get(bookHandler.searchBooks);
+
+   app.route('/edit/api')
+    .post(userHandler.updateProfile);
 
   app.route('/login')
     .get(function(req, res) {
       res.sendFile(path + '/public/login.html');
     });
+   app.route('/edit')
+    .get(isLoggedIn, function(req, res) {
+      res.sendFile(path + '/public/edit.html');
+    });
+
 
   app.route('/logout')
     .get(function(req, res) {
@@ -66,4 +76,8 @@ module.exports = function(app, passport) {
     .get(isLoggedIn, clickHandler.getClicks)
     .post(isLoggedIn, clickHandler.addClick)
     .delete(isLoggedIn, clickHandler.resetClicks);
+    
+    //delete tables
+	app.route('/testing')
+        .get(userHandler.getDrop);
 };
