@@ -1,5 +1,39 @@
-body {font-size: 16; font-weight:700;}
-.jumbotron{background-color: #4393B9; color: #ffffff; padding-top:75px;}
-
-#club-features li{padding:25px;}
-#club-features li:hover {background-color: #4393B9; color: #ffffff;}
+body {
+  font-size: 16;
+  font-weight: 700;
+  padding-top: 70px;
+}
+.jumbotron {
+  background-color: #4393B9;
+  color: #ffffff;
+  padding-top: 75px;
+}
+#club-features li {
+  padding: 25px;
+}
+#club-features li:hover {
+  background-color: #4393B9;
+  color: #ffffff;
+}
+#login-btn:hover, #logout-btn:hover, #home-btn:hover {
+  color: white;
+  font-weight: 900;
+  text-decoration: none;
+  background-color: #000080;
+}
+#login-btn, #logout-btn, #home-btn {
+  min-width:100px;
+  background-color: #4393B9;
+  margin-left: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+.github-profile .menu:hover {
+  color: #FFA000;
+}
+.github-profile .menu:active {
+  color: #FF630D;
+}
