@@ -78,6 +78,13 @@
         return false;
     });
 
+  $("#searchResults").on("click", ".addBtn", function() {
+     
+    var addUrl = $(this).attr('id');
+    console.log(addUrl);
+   // var rsvpUrl = appUrl + "/rsvp/" + barId;
+   // ajaxFunctions.ajaxRequest('POST', rsvpUrl, getRsvp);
+  });
 
 
 

@@ -32,10 +32,13 @@ module.exports = function(app, passport) {
     });
 
   app.route('/search/api')
-    .get(bookHandler.searchBooks);
+    .get(isLoggedIn, bookHandler.searchBooks);
 
    app.route('/edit/api')
-    .post(userHandler.updateProfile);
+    .post(isLoggedIn, userHandler.updateProfile);
+  
+  app.route('/add/api')
+    .post(isLoggedIn, bookHandler.addBook);
 
   app.route('/login')
     .get(function(req, res) {
