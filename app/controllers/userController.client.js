@@ -77,11 +77,25 @@
     
         return false;
     });
+    
+  function addBook(data) {
+    var response = JSON.parse(data);
+    // if not logged in redirect to login page
+    if (response.hasOwnProperty('error')) {
+      alert(response.error);
+      return;
+    } else {
+        var addClass = "." + response.bookId;
+        $( "#searchResults" ).find( addClass ).removeClass("addBtn").addClass("addedButton").text("Added");
+    console.log(response.bookId);
+      }
+  }
 
   $("#searchResults").on("click", ".addBtn", function() {
-     
     var addUrl = $(this).attr('id');
+    addUrl += "&ownerId=" + profId;
     console.log(addUrl);
+    ajaxFunctions.ajaxRequest('POST', addUrl, addBook);
    // var rsvpUrl = appUrl + "/rsvp/" + barId;
    // ajaxFunctions.ajaxRequest('POST', rsvpUrl, getRsvp);
   });

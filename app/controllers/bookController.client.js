@@ -36,7 +36,7 @@
         }
         var requestUrl = appUrl + "/add/api/?title=" + title + "&cover=" + cover + "&bookId=" + bookId;
         //output += '<a href="'+ requestUrl + '"><div class="btn add-btn"><p>Add Book</p></div></a>';
-        output += '<div class="btn addBtn" id="'+ requestUrl + '" ><p>Add Book</p></div>';
+        output += '<div class="btn addBtn ' + bookId + '" id="'+ requestUrl + '" ><p>Add Book</p></div>';
         output += "</li>";
 
       }
