@@ -60,6 +60,10 @@ module.exports = function(app, passport) {
     .get(isLoggedIn, function(req, res) {
       res.sendFile(path + '/public/profile.html');
     });
+    
+  // return profile books
+  app.route('/profile/api/:id')
+     .get(isLoggedIn, bookHandler.getBooks);
 
   app.route('/api/:id')
     .get(isLoggedIn, function(req, res) {

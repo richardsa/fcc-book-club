@@ -6,6 +6,7 @@
     var profileRepos = document.querySelector('#profile-repos') || null;
     var displayName = document.querySelector('#display-name') || null;
     var shareButton = document.querySelector('#shareButton') || null;
+    var profileBooks = document.querySelector('#profileBooks') || null;
     var profId;
     var apiUrl = appUrl + '/api/:id';
     var shareUrl = appUrl + window.location.pathname;
@@ -21,7 +22,7 @@
 
         var userObject = JSON.parse(data);
         profId = userObject.id;
-        console.log("prof id" + profId);
+        
         if (userObject.hasOwnProperty('error')) {
             document.querySelector("#loginButton").innerHTML = '<a href="/login">Login</a>';
             return;
@@ -29,6 +30,11 @@
             document.querySelector("#loginButton").innerHTML = '<a href="/logout">Logout</a>'
             document.querySelector("#profileLink").innerHTML = '<a href="/profile">Profile</a>'
             document.querySelector("#searchLink").innerHTML = '<a href="/search">Search</a>'
+            
+            if(window.location.pathname === "/profile"){
+                console.log(apiUrl + "/profile/api/" + profId);
+                ajaxFunctions.ajaxRequest('GET', appUrl + "/profile/api/" + profId, getBooks);
+            }
 
             if (displayName !== null) {
                 updateHtmlElement(userObject, displayName, 'displayName');
@@ -78,6 +84,8 @@
         return false;
     });
     
+    
+  // function to add books to personal collection    
   function addBook(data) {
     var response = JSON.parse(data);
     // if not logged in redirect to login page
@@ -91,6 +99,7 @@
       }
   }
 
+  // jquery add books to collection function
   $("#searchResults").on("click", ".addBtn", function() {
     var addUrl = $(this).attr('id');
     addUrl += "&ownerId=" + profId;
@@ -99,7 +108,51 @@
    // var rsvpUrl = appUrl + "/rsvp/" + barId;
    // ajaxFunctions.ajaxRequest('POST', rsvpUrl, getRsvp);
   });
+  
+  //function to return all personal books
+    function getBooks(data){
+        var response = JSON.parse(data);
+        console.log(response);
+        var output;
+    //console.log(response);
+    if ('error' in response) {
+      output = "<div class='alert alert-danger'>You do not have any books in your collection."
+      output += "<a href'/search'>Search</a> for books to add!</div>";
+    } else {
+      output = "<ul class='list-group'>";
+      for (var i = 0; i < response.length; i++) {
+        var cover;
+        var title;
+        var bookId = response[i].id;
+        output += "<li class='list-group-item'>";
+        if (response[i].cover) {
+          cover = response[i].cover;
+          output += '<img src="' + cover + '" class="img-rounded img-book" alt="...">';
+        } else {
+          cover = '/public/img/noCover.png';
+          output += '<img src="/public/img/noCover.png" class="img-rounded img-book" alt="...">';
+        }
+        title = response[i].title;
+        output += "<h3 class='bookTitle'>" + title + "</h3><br />";
+        
+        if (response[i].description) {
+          output += "<p class='bookDescription'>" + response[i].description + "</p><br />";
+        } else {
+          output += "<p class='bookDescription'>No Description Available</p><br />";
+        }
+        var requestUrl = appUrl + "/add/api/?title=" + title + "&cover=" + cover + "&bookId=" + bookId;
+        //output += '<a href="'+ requestUrl + '"><div class="btn add-btn"><p>Add Book</p></div></a>';
+        output += '<div class="btn addBtn ' + bookId + '" id="'+ requestUrl + '" ><p>Add Book</p></div>';
+        output += "</li>";
 
+      }
+      output += "</ul>";
 
+    }
+
+    profileBooks.innerHTML = output;
+        
+    }
+    
 
 })();
