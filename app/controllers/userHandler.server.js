@@ -1,7 +1,7 @@
 'use strict';
 var path = process.cwd();
 var Users = require('../models/users.js');
-
+var dbBooks = require('../models/books.js');
 function userHandler() {
     this.updateProfile = function(req, res) {
         console.log('yeah');
@@ -29,6 +29,13 @@ function userHandler() {
     }
     // quick and dirty function to clear tables
     this.getDrop = function(req, res) {
+          dbBooks.remove(function(err, p) {
+            if (err) {
+                throw err;
+            } else {
+               console.log("book table cleared")
+            }
+        });
 
         Users.remove(function(err, p) {
             if (err) {

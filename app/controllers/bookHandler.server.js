@@ -4,95 +4,141 @@ var books = require('google-books-search');
 var dbBooks = require('../models/books.js');
 
 function bookHandler() {
-  //main book search function
-  this.searchBooks = function(req, res) {
-    console.log('yeah');
-    var title = req.query.title;
+    //main book search function
+    this.searchBooks = function(req, res) {
+        console.log('yeah');
+        var title = req.query.title;
 
-    books.search(title, function(error, results) {
-      if (!error) {
+        books.search(title, function(error, results) {
+            if (!error) {
 
-        res.send(results);
+                res.send(results);
 
-      } else {
-        var noResults = {
-          error: 'No Results Found'
-        };
-        res.send(noResults);
-      }
-    });
-
-  }
-
-  //add book to collection
-  this.addBook = function(req, res) {
-    console.log(req.query);
-    var title = req.query.title;
-    var printsec = req.query.printsec;
-    var img = req.query.img;
-    var zoom = req.query.zoom;
-    var edge = req.query.edge;
-    var source = req.query.source;
-    var cover = req.query.cover + "&printsec=" + printsec + "&img=" + img + "&zoom=" + zoom + "&edge=" + edge + "&source=" + source;
-    var bookId = req.query.bookId;
-    var ownerId = req.query.ownerId;
-    console.log("title " + title + " cover " + cover + " bookId " + bookId + " ownerId " + ownerId)
-    var requestorId = "";
-    dbBooks.findOne({
-        bookId: bookId,
-        ownerId: ownerId
-      },
-      function(err, doc) {
-        if (err) {
-          throw err;
-        }
-        if (doc) {
-          res.send({
-            error: "You already own this book"
-          });
-        } else {
-          dbBooks.collection.insert({
-            bookId: bookId,
-            ownerId: ownerId,
-            title: title,
-            cover: cover,
-            requestorId: requestorId
-
-          }, function(err, updatedResult) {
-            if (err) {
-              throw err;
+            } else {
+                var noResults = {
+                    error: 'No Results Found'
+                };
+                res.send(noResults);
             }
-            //console.log(updatedResult);
-            res.send({
-              bookId: bookId
-            });
-          });
-        }
-      });
-  };
+        });
 
-  // return all profile books
-  this.getBooks = function(req, res) {
-    var profile = req.params.id;
-    console.log(profile);
-    dbBooks
-      .find({
-        'ownerId': profile
-      })
-      .lean().exec(function(err, result) {
-        if (err) {
-          throw err;
-        }
-        if (result) {
-          res.json(result);
+    }
+
+    //add book to collection
+    this.addBook = function(req, res) {
+        console.log(req.query);
+        var title = req.query.title;
+        var cover;
+        if (req.query.cover === "/public/img/noCover.png") {
+            cover = req.query.cover;
         } else {
-          res.send({
-            error: "You do not have any books in your collection"
-          });
+            var printsec = req.query.printsec;
+            var img = req.query.img;
+            var zoom = req.query.zoom;
+            var edge = req.query.edge;
+            var source = req.query.source;
+            cover = req.query.cover + "&printsec=" + printsec + "&img=" + img + "&zoom=" + zoom + "&edge=" + edge + "&source=" + source;
         }
-      });
+        //var cover = req.query.cover + "&printsec=" + printsec + "&img=" + img + "&zoom=" + zoom + "&edge=" + edge + "&source=" + source;
+        var bookId = req.query.bookId;
+        var ownerId = req.query.ownerId;
+        console.log("title " + title + " cover " + cover + " bookId " + bookId + " ownerId " + ownerId);
+        var requestorId = "";
+        dbBooks.findOne({
+                bookId: bookId,
+                ownerId: ownerId
+            },
+            function(err, doc) {
+                if (err) {
+                    throw err;
+                }
+                if (doc) {
+                    res.send({
+                        error: "You already own this book"
+                    });
+                } else {
+                    dbBooks.collection.insert({
+                        bookId: bookId,
+                        ownerId: ownerId,
+                        title: title,
+                        cover: cover,
+                        requestorId: requestorId
 
-  };
+                    }, function(err, updatedResult) {
+                        if (err) {
+                            throw err;
+                        }
+                        //console.log(updatedResult);
+                        res.send({
+                            bookId: bookId
+                        });
+                    });
+                }
+            });
+    };
+
+    //delete book from profile
+    this.deleteBook = function(req, res) {
+        var bookId = req.params.id;
+        dbBooks.findOne({
+                bookId: bookId
+
+            },
+            function(err, book) {
+                if (err) {
+                    throw err;
+                }
+                if (book) {
+                    book.remove(function(err) {
+                        if (err) {
+                            throw err;
+                        }
+                        res.send("book deleted");
+                    });
+                }
+            });
+    };
+
+    // return all profile books
+    this.getBooks = function(req, res) {
+        var profile = req.params.id;
+        console.log(profile);
+        dbBooks
+            .find({
+                'ownerId': profile
+            })
+            .lean().exec(function(err, result) {
+                if (err) {
+                    throw err;
+                }
+                if (result) {
+                    res.json(result);
+                } else {
+                    res.send({
+                        error: "You do not have any books in your collection"
+                    });
+                }
+            });
+    };
+
+    // return all community books
+    this.getAllBooks = function(req, res) {
+        
+        dbBooks
+            .find({})
+            .lean().exec(function(err, result) {
+                if (err) {
+                    throw err;
+                }
+                if (result) {
+                    res.json(result);
+                } else {
+                    res.send({
+                        error: "No books in community at this time"
+                    });
+                }
+            });
+    };
 
 }
 

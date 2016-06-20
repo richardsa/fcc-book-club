@@ -45,42 +45,16 @@
 	<!--end nav menu -->
 	<div class="home main-section">
 		<div class="container">
-			<div class="github-profile text-center ">
-				<img src="/public/img/gh-mark-32px.png" alt="github logo" />
-				<p><span>ID: </span><span id="profile-id" class="profile-value"></span></p>
-				<p><span>Username: </span><span id="profile-username" class="profile-value"></span></p>
-				<p><span>Display Name: </span><span id="display-name" class="profile-value"></span></p>
-				<p><span>Repositories: </span><span id="profile-repos" class="profile-value"></span></p>
-				<div class="row">
-					<a href="/">
-						<div class="btn" id="home-btn">
-							<p>Home</p>
-						</div>
-					</a>
-				
-					<a href="/logout">
-						<div class="btn" id="logout-btn">
-							<p>Logout</p>
-						</div>
-					</a>
-					
-					<a href="/edit">
-						<div class="btn" id="edit-btn">
-							<p>Edit Profile</p>
-						</div>
-					</a>
-				</div>
-				
-			</div>
+			<h3>All Books</h3>
+			<div class='allBooks'>
 
-			<div id="profileBooks" class="row">
-			
 			</div>
 		</div>
 	</div>
 
 	<script type="text/javascript" src="common/ajax-functions.js"></script>
 	<script type="text/javascript" src="controllers/userController.client.js"></script>
+	<script type="text/javascript" src="controllers/bookController.client.js"></script>
 </body>
 
 </html>

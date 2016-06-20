@@ -30,6 +30,11 @@ module.exports = function(app, passport) {
     .get(isLoggedIn, function(req, res) {
       res.sendFile(path + '/public/search.html');
     });
+    
+  app.route('/books')
+    .get(isLoggedIn, function(req, res) {
+      res.sendFile(path + '/public/books.html');
+    });
 
   app.route('/search/api')
     .get(isLoggedIn, bookHandler.searchBooks);
@@ -39,6 +44,11 @@ module.exports = function(app, passport) {
   
   app.route('/add/api')
     .post(isLoggedIn, bookHandler.addBook);
+    
+  app.route('/delete/api/:id')
+    .delete(isLoggedIn, bookHandler.deleteBook);
+    
+    
 
   app.route('/login')
     .get(function(req, res) {
@@ -64,6 +74,10 @@ module.exports = function(app, passport) {
   // return profile books
   app.route('/profile/api/:id')
      .get(isLoggedIn, bookHandler.getBooks);
+     
+  // return all books
+  app.route('/books/api')
+  .get(isLoggedIn, bookHandler.getAllBooks);
 
   app.route('/api/:id')
     .get(isLoggedIn, function(req, res) {

@@ -30,6 +30,7 @@
             document.querySelector("#loginButton").innerHTML = '<a href="/logout">Logout</a>'
             document.querySelector("#profileLink").innerHTML = '<a href="/profile">Profile</a>'
             document.querySelector("#searchLink").innerHTML = '<a href="/search">Search</a>'
+            document.querySelector("#allBooks").innerHTML = '<a href="/books">All Books</a>'
             
             if(window.location.pathname === "/profile"){
                 console.log(apiUrl + "/profile/api/" + profId);
@@ -109,6 +110,18 @@
    // ajaxFunctions.ajaxRequest('POST', rsvpUrl, getRsvp);
   });
   
+  //jquery remove books from collection function 
+    
+  $("#profileBooks").on("click", ".removeBtn", function() {
+    var removeUrl = '/delete/api/'
+    removeUrl += $(this).attr('id');
+    
+    ajaxFunctions.ajaxRequest('DELETE', removeUrl, function() {
+
+            ajaxFunctions.ajaxRequest('GET', appUrl + "/profile/api/" + profId, getBooks);
+        });
+   });
+  
   //function to return all personal books
     function getBooks(data){
         var response = JSON.parse(data);
@@ -123,8 +136,9 @@
       for (var i = 0; i < response.length; i++) {
         var cover;
         var title;
-        var bookId = response[i].id;
+        var bookId = response[i].bookId;
         output += "<li class='list-group-item'>";
+        
         if (response[i].cover) {
           cover = response[i].cover;
           output += '<img src="' + cover + '" class="img-rounded img-book" alt="...">';
@@ -135,14 +149,9 @@
         title = response[i].title;
         output += "<h3 class='bookTitle'>" + title + "</h3><br />";
         
-        if (response[i].description) {
-          output += "<p class='bookDescription'>" + response[i].description + "</p><br />";
-        } else {
-          output += "<p class='bookDescription'>No Description Available</p><br />";
-        }
-        var requestUrl = appUrl + "/add/api/?title=" + title + "&cover=" + cover + "&bookId=" + bookId;
+       // var requestUrl = appUrl + "/add/api/?title=" + title + "&cover=" + cover + "&bookId=" + bookId;
         //output += '<a href="'+ requestUrl + '"><div class="btn add-btn"><p>Add Book</p></div></a>';
-        output += '<div class="btn addBtn ' + bookId + '" id="'+ requestUrl + '" ><p>Add Book</p></div>';
+        output += '<div class="btn removeBtn ' + bookId + '" id="'+ bookId+ '" ><p>Remove Book</p></div>';
         output += "</li>";
 
       }

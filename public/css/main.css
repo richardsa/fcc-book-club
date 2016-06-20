@@ -49,6 +49,17 @@ body {
   text-decoration: none;
   background-color: #004E00;
 }
+.removeBtn{
+  color: #ffffff;
+  background-color: #d9534f;
+}
+.removeBtn:hover{
+  background-color:#c9302;
+  color: #ffffff;
+  font-weight: 900;
+  text-decoration: none;
+}
+
 .github-profile .menu:hover {
   color: #FFA000;
 }
