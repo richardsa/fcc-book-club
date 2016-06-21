@@ -30,7 +30,7 @@
             document.querySelector("#loginButton").innerHTML = '<a href="/logout">Logout</a>'
             document.querySelector("#profileLink").innerHTML = '<a href="/profile">Profile</a>'
             document.querySelector("#searchLink").innerHTML = '<a href="/search">Search</a>'
-            document.querySelector("#allBooks").innerHTML = '<a href="/books">All Books</a>'
+            document.querySelector("#allBooksLink").innerHTML = '<a href="/books">All Books</a>'
             
             if(window.location.pathname === "/profile"){
                 console.log(apiUrl + "/profile/api/" + profId);

@@ -22,7 +22,7 @@ function bookHandler() {
             }
         });
 
-    }
+    };
 
     //add book to collection
     this.addBook = function(req, res) {

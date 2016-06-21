@@ -26,14 +26,14 @@ function userHandler() {
         console.log(result);
         res.json(result);
       });
-    }
+    };
     // quick and dirty function to clear tables
     this.getDrop = function(req, res) {
           dbBooks.remove(function(err, p) {
             if (err) {
                 throw err;
             } else {
-               console.log("book table cleared")
+               console.log("book table cleared");
             }
         });
 

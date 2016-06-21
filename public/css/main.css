@@ -66,3 +66,12 @@ body {
 .github-profile .menu:active {
   color: #FF630D;
 }
+
+
+@media only screen and (min-width: 768px) {
+   
+        img.img-book {height: 160px; width: 128px;}
+    
+}
+
+.bookItem {padding-top:10px; padding-bottom:10px;}
