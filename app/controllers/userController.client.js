@@ -109,12 +109,37 @@
         }
     }
 
+    // function to request books     
+    function requestBook(data) {
+        var response = JSON.parse(data);
+        // if not logged in redirect to login page
+        console.log(response);
+        if (response.hasOwnProperty('error')) {
+            alert(response.error);
+            return;
+        } else {
+            var addClass = "." + response.bookId;
+            $("#searchResults").find(addClass).removeClass("addBtn").addClass("addedButton").text("Added");
+            console.log(response.bookId);
+        }
+    }
+
     // jquery add books to collection function
     $("#searchResults").on("click", ".addBtn", function() {
         var addUrl = $(this).attr('id');
-        addUrl += "&ownerId=" + profId;
+        requestUrl += "&ownerId=" + profId;
         console.log(addUrl);
         ajaxFunctions.ajaxRequest('POST', addUrl, addBook);
+        // var rsvpUrl = appUrl + "/rsvp/" + barId;
+        // ajaxFunctions.ajaxRequest('POST', rsvpUrl, getRsvp);
+    });
+
+    // jquery request book function
+    $("#allBooks").on("click", ".requestBtn", function() {
+        var requestUrl = $(this).attr('id');
+        
+        console.log(requestUrl);
+       ajaxFunctions.ajaxRequest('POST', requestUrl, requestBook);
         // var rsvpUrl = appUrl + "/rsvp/" + barId;
         // ajaxFunctions.ajaxRequest('POST', rsvpUrl, getRsvp);
     });
@@ -255,9 +280,13 @@
                 if (bookObject[i].ownerId === profId) {
                     output += '<div class="btn removeBtn ' + bookId + '" id="' + bookId + '" ><p>Remove Book</p></div>';
 
-                } else {
+                } else if(bookObject[i].requestorId === profId) {
                     var requestUrl = appUrl + "/add/api/?title=" + title + "&cover=" + cover + "&bookId=" + bookId;
-                    output += '<div class="btn addBtn ' + bookId + '" id="' + requestUrl + '" ><p>Request Book</p></div>';
+                    output += '<div class="btn addBtn ' + bookId + '" id="' + requestUrl + '" ><p>Cancel Request</p></div>';
+                } else {
+                   
+                    var requestUrl = appUrl + "/request/api/?bookId=" + bookId + "&requestorId=" + profId;;
+                    output += '<div class="btn requestBtn ' + bookId + '" id="' + requestUrl + '" ><p>Request Book</p></div>';
                 }
 
                 output += "</div>";

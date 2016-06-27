@@ -41,9 +41,13 @@ module.exports = function(app, passport) {
 
    app.route('/edit/api')
     .post(isLoggedIn, userHandler.updateProfile);
-  
+  //add book to collection
   app.route('/add/api')
     .post(isLoggedIn, bookHandler.addBook);
+    
+  //request to borrow book  
+  app.route('/request/api')
+    .post(isLoggedIn, bookHandler.requestBook);
     
   app.route('/delete/api/:id')
     .delete(isLoggedIn, bookHandler.deleteBook);

@@ -139,6 +139,31 @@ function bookHandler() {
                 }
             });
     };
+    
+    // request to borrow book
+    
+    this.requestBook = function(req, res) {
+      var bookId = req.query.bookId;
+      var requestorId = req.query.requestorId;
+      console.log("bookId " + bookId + " requestorId " + requestorId);
+      dbBooks
+          .findOneAndUpdate({
+              'bookId': bookId,
+              
+          },  { $set: { 'requestorId': requestorId } })
+          .lean().exec(function(err, result) {
+              if (err) {
+                  throw err;
+              }
+              if (result) {
+                  res.json(result);
+              } else {
+                  res.send({
+                      error: "You do not have any books in your collection"
+                  });
+              }
+          });
+    }
 
 }
 
