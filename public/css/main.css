@@ -15,47 +15,45 @@ body {
   background-color: #4393B9;
   color: #ffffff;
 }
+.btn{font-size:12px;
+  min-width:75px;
+  background-color: #4393B9;
+  margin-left: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
 #login-btn:hover, #logout-btn:hover, #home-btn:hover, #edit-btn:hover, .addBtn:hover, .requestBtn:hover {
-  color: #ffffff!important;
+  color: #ffffff;
   /*font-weight: 900;*/
   text-decoration: none;
   background-color: #000080;
 }
 #login-btn, #logout-btn, #home-btn, #edit-btn, .addBtn, .requestBtn {
-  min-width:100px;
   background-color: #4393B9;
-  margin-left: 10px;
-  padding: 10px;
-  border-radius: 10px;
   color: #ffffff;
-  font-weight: 700;
   cursor: pointer;
 }
 
-.addedButton {
-  min-width:100px;
+.addedButton, .requestedButton, .approveBtn {
   background-color: #008000;
-  margin-left: 10px;
-  padding: 10px;
-  border-radius: 10px;
   color: #ffffff;
-  font-weight: 700;
   cursor: pointer;
 }
 
-.addedButton:hover {
-  color: #ffffff;
-  font-weight: 900;
+.addedButton:hover, .requestedButton:hover, .approveBtn:hover {
+  color: #ffffff!important;
+  
   text-decoration: none;
   background-color: #004E00;
 }
-.removeBtn{
+.removeBtn, .denyBtn{
   color: #ffffff;
   background-color: #d9534f;
 }
-.removeBtn:hover{
-  background-color:#c9302;
-  color: #ffffff!important;
+.removeBtn:hover, .denyBtn:hover{
+  background-color:#b52b27;
+  color: #ffffff;
   text-decoration: none;
 }
 
@@ -74,7 +72,7 @@ h3.bookTitle {font-size:16px; font-weight:800;min-height:50px;}
     
 }
 
-.bookItem {padding-top:15px; padding-bottom:15px; border:1px solid #000000;}
-.bookItem:hover{background-color: #4393B9; color:#ffffff;}
+.bookItem {padding-top:15px; padding-bottom:15px; border:1px solid #000000; }
+.bookItem:hover{background-color: #a6cddf; color:#ffffff;}
 
 #profileBooks {padding-top:20px;}

@@ -47,7 +47,8 @@ module.exports = function(app, passport) {
     
   //request to borrow book  
   app.route('/request/api')
-    .post(isLoggedIn, bookHandler.requestBook);
+    .post(isLoggedIn, bookHandler.requestBook)
+    .delete(isLoggedIn, bookHandler.cancelRequest);
     
   app.route('/delete/api/:id')
     .delete(isLoggedIn, bookHandler.deleteBook);

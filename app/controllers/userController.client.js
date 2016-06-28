@@ -117,7 +117,7 @@
       return;
     } else {
       var addClass = "." + response.bookId;
-      $("#allBooks").find(addClass).removeClass("requestBtn").addClass("addedButton").html("<p>Cancel Request</p>");
+      $("#allBooks").find(addClass).removeClass("requestBtn").addClass("requestedButton").html("<p>Cancel Request</p>");
     }
   }
 
@@ -189,10 +189,17 @@
         }
         title = response[i].title;
         output += "<h3 class='bookTitle'>" + title + "</h3><br />";
+        if (response[i].ownerId === profId && response[i].requestorId === "" ) {
+          output += '<div class="btn removeBtn ' + bookId + '" id="' + bookId + '" ><p>Remove Book</p></div>';
 
+        } else if (response[i].ownerId === profId && response[i].requestorId !== "" ) {
+          output += '<div class="btn approveBtn ' + bookId + '" id="' + bookId + '" ><p>Approve Request</p></div>';
+          output += '<div class="btn denyBtn ' + bookId + '" id="' + bookId + '" ><p>Deny Request</p></div>';
+
+        }  
         // var requestUrl = appUrl + "/add/api/?title=" + title + "&cover=" + cover + "&bookId=" + bookId;
         //output += '<a href="'+ requestUrl + '"><div class="btn add-btn"><p>Add Book</p></div></a>';
-        output += '<div class="btn removeBtn ' + bookId + '" id="' + bookId + '" ><p>Remove Book</p></div>';
+      //  output += '<div class="btn removeBtn ' + bookId + '" id="' + bookId + '" ><p>Remove Book</p></div>';
         output += "</div>";
       }
       //  output += "</div>";
@@ -273,12 +280,17 @@
         }
         title = bookObject[i].title;
         output += "<h3 class='bookTitle'>" + title + "</h3><br />";
-        if (bookObject[i].ownerId === profId) {
+        if (bookObject[i].ownerId === profId && bookObject[i].requestorId === "" ) {
           output += '<div class="btn removeBtn ' + bookId + '" id="' + bookId + '" ><p>Remove Book</p></div>';
 
+        } else if (bookObject[i].ownerId === profId && bookObject[i].requestorId !== "" ) {
+          output += '<div class="btn approveBtn ' + bookId + '" id="' + bookId + '" ><p>Approve Request</p></div>';
+          output += '<div class="btn denyBtn ' + bookId + '" id="' + bookId + '" ><p>Deny Request</p></div>';
+
         } else if (bookObject[i].requestorId === profId) {
-          var requestUrl = appUrl + "/add/api/?title=" + title + "&cover=" + cover + "&bookId=" + bookId;
-          output += '<div class="btn addedButton ' + bookId + '" id="' + requestUrl + '" ><p>Cancel Request</p></div>';
+          var requestUrl = appUrl + "/request/api/?bookId=" + bookId + "&requestorId=" + profId;;
+          output += '<div class="btn requestedButton ' + bookId + '" id="' + requestUrl + '" ><p>Cancel Request</p></div>';
+          
         } else {
 
           var requestUrl = appUrl + "/request/api/?bookId=" + bookId + "&requestorId=" + profId;;
@@ -301,6 +313,29 @@
       ajaxFunctions.ajaxRequest('GET', appUrl + "/books/api/", getAllBooks);
     }
   });
+  //jquery to cancel request 
+  // jquery request book function
+  $("#allBooks").on("click", ".requestedButton", function() {
+    var requestUrl = $(this).attr('id');
+
+    console.log(requestUrl);
+    ajaxFunctions.ajaxRequest('DELETE', requestUrl, cancelRequest);
+    // var rsvpUrl = appUrl + "/rsvp/" + barId;
+    // ajaxFunctions.ajaxRequest('POST', rsvpUrl, getRsvp);
+  });
+
+  // main cancel request function
+  // function to request books     
+  function cancelRequest (data) {
+    var response = JSON.parse(data);
+    if (response.hasOwnProperty('error')) {
+      alert(response.error);
+      return;
+    } else {
+      var addClass = "." + response.bookId;
+      $("#allBooks").find(addClass).removeClass("requestedButton").addClass("requestBtn").html("<p>Request Book</p>");
+    }
+  }
 
   //get search results
   $("#searchForm").bind('submit', function(e) {
