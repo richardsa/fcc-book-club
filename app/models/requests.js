@@ -3,14 +3,13 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Book = new Schema({
+var Request = new Schema({
 	  title: String,
       bookId: String,
       coverUrl: String,
       ownerId: String,
-      requestorId: String,
-      approvalStatus: String,
+      requestorId: String
       
 });
 
-module.exports = mongoose.model('Book', Book);
+module.exports = mongoose.model('Request', Request);

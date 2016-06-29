@@ -79,6 +79,10 @@ module.exports = function(app, passport) {
   // return profile books
   app.route('/profile/api/:id')
      .get(isLoggedIn, bookHandler.getBooks);
+  
+  // return requests
+  app.route('/request/api/:id')
+    .get(isLoggedIn, bookHandler.getRequests);
      
   // return all books
   app.route('/books/api')
