@@ -73,6 +73,6 @@ h3.bookTitle {font-size:16px; font-weight:800;min-height:50px;}
 }
 
 .bookItem {padding-top:15px; padding-bottom:15px; border:1px solid #000000; }
-.bookItem:hover{background-color: #a6cddf; color:#ffffff;}
+.bookItem:hover{background-color: #a6cddf; }
 
 #profileBooks {padding-top:20px;}

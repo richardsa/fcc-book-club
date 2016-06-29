@@ -39,10 +39,8 @@ function bookHandler() {
             var source = req.query.source;
             cover = req.query.cover + "&printsec=" + printsec + "&img=" + img + "&zoom=" + zoom + "&edge=" + edge + "&source=" + source;
         }
-        //var cover = req.query.cover + "&printsec=" + printsec + "&img=" + img + "&zoom=" + zoom + "&edge=" + edge + "&source=" + source;
         var bookId = req.query.bookId;
         var ownerId = req.query.ownerId;
-        console.log("title " + title + " cover " + cover + " bookId " + bookId + " ownerId " + ownerId);
         var requestorId = "";
         dbBooks.findOne({
                 bookId: bookId,
@@ -111,9 +109,11 @@ function bookHandler() {
                 if (err) {
                     throw err;
                 }
-                if (result) {
+                if (result.length >= 1) {
+                    console.log(JSON.stringify(result));
                     res.json(result);
                 } else {
+                    console.log("error");
                     res.send({
                         error: "You do not have any books in your collection"
                     });
@@ -186,7 +186,7 @@ function bookHandler() {
               }
           });
       
-    }
+    };
 
 }
 

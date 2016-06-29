@@ -133,11 +133,7 @@
   // jquery request book function
   $("#allBooks").on("click", ".requestBtn", function() {
     var requestUrl = $(this).attr('id');
-
-    console.log(requestUrl);
     ajaxFunctions.ajaxRequest('POST', requestUrl, requestBook);
-    // var rsvpUrl = appUrl + "/rsvp/" + barId;
-    // ajaxFunctions.ajaxRequest('POST', rsvpUrl, getRsvp);
   });
 
   //jquery remove books from collection function 
@@ -168,12 +164,12 @@
     var response = JSON.parse(data);
     console.log(response);
     var output = "<div class='row'>";
-    //console.log(response);
+    console.log(response);
     if ('error' in response) {
-      output = "<div class='alert alert-danger'>You do not have any books in your collection."
-      output += "<a href'/search'>Search</a> for books to add!</div>";
+      output = "<div class='alert alert-danger'>You do not have any books in your collection. "
+      output += "<a href='/search'>Search</a> for books to add!</div>";
     } else {
-
+      output += "<h3>My Books</h3>"
       for (var i = 0; i < response.length; i++) {
         var cover;
         var title;
@@ -189,23 +185,22 @@
         }
         title = response[i].title;
         output += "<h3 class='bookTitle'>" + title + "</h3><br />";
-        if (response[i].ownerId === profId && response[i].requestorId === "" ) {
+        if (response[i].ownerId === profId && response[i].requestorId === "") {
           output += '<div class="btn removeBtn ' + bookId + '" id="' + bookId + '" ><p>Remove Book</p></div>';
 
-        } else if (response[i].ownerId === profId && response[i].requestorId !== "" ) {
+        } else if (response[i].ownerId === profId && response[i].requestorId !== "") {
           output += '<div class="btn approveBtn ' + bookId + '" id="' + bookId + '" ><p>Approve Request</p></div>';
           output += '<div class="btn denyBtn ' + bookId + '" id="' + bookId + '" ><p>Deny Request</p></div>';
 
-        }  
+        }
         // var requestUrl = appUrl + "/add/api/?title=" + title + "&cover=" + cover + "&bookId=" + bookId;
         //output += '<a href="'+ requestUrl + '"><div class="btn add-btn"><p>Add Book</p></div></a>';
-      //  output += '<div class="btn removeBtn ' + bookId + '" id="' + bookId + '" ><p>Remove Book</p></div>';
+        //  output += '<div class="btn removeBtn ' + bookId + '" id="' + bookId + '" ><p>Remove Book</p></div>';
         output += "</div>";
       }
       //  output += "</div>";
     }
     output += "</div>";
-    console.log(output);
     profileBooks.innerHTML = output;
   }
 
@@ -280,17 +275,19 @@
         }
         title = bookObject[i].title;
         output += "<h3 class='bookTitle'>" + title + "</h3><br />";
-        if (bookObject[i].ownerId === profId && bookObject[i].requestorId === "" ) {
+        if (bookObject[i].ownerId === profId && bookObject[i].requestorId === "") {
           output += '<div class="btn removeBtn ' + bookId + '" id="' + bookId + '" ><p>Remove Book</p></div>';
 
-        } else if (bookObject[i].ownerId === profId && bookObject[i].requestorId !== "" ) {
+        } else if (bookObject[i].ownerId === profId && bookObject[i].requestorId !== "") {
           output += '<div class="btn approveBtn ' + bookId + '" id="' + bookId + '" ><p>Approve Request</p></div>';
           output += '<div class="btn denyBtn ' + bookId + '" id="' + bookId + '" ><p>Deny Request</p></div>';
 
         } else if (bookObject[i].requestorId === profId) {
-          var requestUrl = appUrl + "/request/api/?bookId=" + bookId + "&requestorId=" + profId;;
+          var requestUrl = appUrl + "/request/api/?bookId=" + bookId + "&requestorId=" + profId;
           output += '<div class="btn requestedButton ' + bookId + '" id="' + requestUrl + '" ><p>Cancel Request</p></div>';
-          
+
+        }else if (bookObject[i].requestorId.length > 0 &&  bookObject[i].requestorId !== profId) {
+          output += '<div class="btn requestBtn"><p>Outstanding Request</p></div>';
         } else {
 
           var requestUrl = appUrl + "/request/api/?bookId=" + bookId + "&requestorId=" + profId;;
@@ -326,7 +323,7 @@
 
   // main cancel request function
   // function to request books     
-  function cancelRequest (data) {
+  function cancelRequest(data) {
     var response = JSON.parse(data);
     if (response.hasOwnProperty('error')) {
       alert(response.error);
