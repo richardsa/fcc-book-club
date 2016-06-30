@@ -181,6 +181,7 @@ function bookHandler() {
             }, {
                 $set: {
                     'requestorId': ""
+                    
                 }
             })
             .lean().exec(function(err, result) {
@@ -191,7 +192,7 @@ function bookHandler() {
                     res.json(result);
                 } else {
                     res.send({
-                        error: "You do not have any books in your collection"
+                        error: "There was an error processing your request"
                     });
                 }
             });
@@ -219,7 +220,34 @@ function bookHandler() {
                     });
                 }
             });
-    }
+    };
+    
+    //function to deny request  
+    this.denyRequest = function(req, res){
+        var bookId = req.params.id;
+        dbBooks
+            .findOneAndUpdate({
+                'bookId': bookId,
+
+            }, {
+                $set: {
+                    'approvalStatus': "N"
+                }
+            })
+            .lean().exec(function(err, result) {
+                if (err) {
+                    throw err;
+                }
+                if (result) {
+                    res.json(result);
+                } else {
+                    res.send({
+                        error: "There was an error processing your request"
+                    });
+                }
+            });
+        
+    };
 
 }
 

@@ -191,13 +191,13 @@
                     output += '<div class="btn removeBtn ' + bookId + '" id="' + bookId + '" ><p>Remove Book</p></div>';
 
                 } else if (response[i].ownerId === profId && response[i].requestorId !== "") {
-                    output += '<div class="btn approveBtn ' + bookId + '" id="' + bookId + '" ><p>Approve Request</p></div>';
-                    output += '<div class="btn denyBtn ' + bookId + '" id="' + bookId + '" ><p>Deny Request</p></div>';
+                    output += '<div class="btn approveBtn ' + bookId + '" id="' + bookId + '-approve" ><p>Approve Request</p></div>';
+                    output += '<div class="btn denyBtn ' + bookId + '" id="' + bookId + '-deny" ><p>Deny Request</p></div>';
 
                 }
                 output += "</div>";
             }
-          
+
         }
         output += "</div>";
         profileBooks.innerHTML = output;
@@ -205,49 +205,49 @@
 
     // function to get requested books 
     function getRequests(data) {
-      var response = JSON.parse(data);
-      console.log(response);
-      var output = "<div class='row'>";
-      console.log(response);
-      if ('error' in response) {
-        //  output = "<div class='alert alert-danger'>You do not have any books in your collection. "
-        //  output += "<a href='/search'>Search</a> for books to add!</div>";
-      } else {
-          output += "<h3>Requested Books</h3>"
-          for (var i = 0; i < response.length; i++) {
-              var cover;
-              var title;
-              var bookId = response[i].bookId;
-              output += "<div class='col-sm-4 col-md-3 bookItem text-center'>";
+        var response = JSON.parse(data);
+        console.log(response);
+        var output = "<div class='row'>";
+        console.log(response);
+        if ('error' in response) {
+            //  output = "<div class='alert alert-danger'>You do not have any books in your collection. "
+            //  output += "<a href='/search'>Search</a> for books to add!</div>";
+        } else {
+            output += "<h3>Requested Books</h3>"
+            for (var i = 0; i < response.length; i++) {
+                var cover;
+                var title;
+                var bookId = response[i].bookId;
+                output += "<div class='col-sm-4 col-md-3 bookItem text-center'>";
 
-              if (response[i].cover) {
-                  cover = response[i].cover;
-                  output += '<img src="' + cover + '" class="img-rounded img-book" alt="...">';
-              } else {
-                  cover = '/public/img/noCover.png';
-                  output += '<img src="/public/img/noCover.png" class="img-rounded img-book" alt="...">';
-              }
-              title = response[i].title;
-              output += "<h3 class='bookTitle'>" + title + "</h3><br />";
-              if (response[i].ownerId === profId && response[i].requestorId === "") {
-                  output += '<div class="btn removeBtn ' + bookId + '" id="' + bookId + '" ><p>Remove Book</p></div>';
+                if (response[i].cover) {
+                    cover = response[i].cover;
+                    output += '<img src="' + cover + '" class="img-rounded img-book" alt="...">';
+                } else {
+                    cover = '/public/img/noCover.png';
+                    output += '<img src="/public/img/noCover.png" class="img-rounded img-book" alt="...">';
+                }
+                title = response[i].title;
+                output += "<h3 class='bookTitle'>" + title + "</h3><br />";
+                if (response[i].ownerId === profId && response[i].requestorId === "") {
+                    output += '<div class="btn removeBtn ' + bookId + '" id="' + bookId + '" ><p>Remove Book</p></div>';
 
-              } else if (response[i].ownerId === profId && response[i].requestorId !== "") {
-                  output += '<div class="btn approveBtn ' + bookId + '" id="' + bookId + '" ><p>Approve Request</p></div>';
-                  output += '<div class="btn denyBtn ' + bookId + '" id="' + bookId + '" ><p>Deny Request</p></div>';
+                } else if (response[i].ownerId === profId && response[i].requestorId !== "") {
+                    output += '<div class="btn approveBtn ' + bookId + '" id="' + bookId + '-approve" ><p>Approve Request</p></div>';
+                    output += '<div class="btn denyBtn ' + bookId + '" id="' + bookId + '-deny" ><p>Deny Request</p></div>';
 
-              }
-              if (response[i].requestorId === profId && response[i].approvalStatus === "") {
-                  var requestUrl = appUrl + "/request/api/?bookId=" + bookId + "&requestorId=" + profId;
-                  output += '<div class="btn requestedButton ' + bookId + '" id="' + requestUrl + '" ><p>Cancel Request</p></div>';
+                }
+                if (response[i].requestorId === profId && response[i].approvalStatus === "") {
+                    var requestUrl = appUrl + "/request/api/?bookId=" + bookId + "&requestorId=" + profId;
+                    output += '<div class="btn requestedButton ' + bookId + '" id="' + requestUrl + '" ><p>Cancel Request</p></div>';
 
-              }
-              output += "</div>";
-          }
-        
-      }
-      output += "</div>";
-      requestedBooks.innerHTML = output;
+                }
+                output += "</div>";
+            }
+
+        }
+        output += "</div>";
+        requestedBooks.innerHTML = output;
 
     }
 
@@ -326,8 +326,8 @@
                     output += '<div class="btn removeBtn ' + bookId + '" id="' + bookId + '" ><p>Remove Book</p></div>';
 
                 } else if (bookObject[i].ownerId === profId && bookObject[i].requestorId !== "") {
-                    output += '<div class="btn approveBtn ' + bookId + '" id="' + bookId + '" ><p>Approve Request</p></div>';
-                    output += '<div class="btn denyBtn ' + bookId + '" id="' + bookId + '" ><p>Deny Request</p></div>';
+                    output += '<div class="btn approveBtn ' + bookId + '" id="' + bookId + '-approve" ><p>Approve Request</p></div>';
+                    output += '<div class="btn denyBtn ' + bookId + '" id="' + bookId + '-deny" ><p>Deny Request</p></div>';
 
                 } else if (bookObject[i].requestorId === profId) {
                     var requestUrl = appUrl + "/request/api/?bookId=" + bookId + "&requestorId=" + profId;
@@ -384,13 +384,48 @@
         if (response.hasOwnProperty('error')) {
             alert(response.error);
             return;
-        } else if (window.location.pathname === "/profile"){
-          ajaxFunctions.ajaxRequest('GET', appUrl + "/request/api/" + profId, getRequests);
-        }else {
+        } else if (window.location.pathname === "/profile") {
+            ajaxFunctions.ajaxRequest('GET', appUrl + "/request/api/" + profId, getRequests);
+        } else {
             var addClass = "." + response.bookId;
             $("#allBooks").find(addClass).removeClass("requestedButton").addClass("requestBtn").html("<p>Request Book</p>");
         }
     }
+    // main deny request function
+    function denyRequest(data) {
+        var response = JSON.parse(data);
+        if (response.hasOwnProperty('error')) {
+            alert(response.error);
+            return;
+        } else if (window.location.pathname === "/profile") {
+            ajaxFunctions.ajaxRequest('GET', appUrl + "/request/api/" + profId, getRequests);
+        } else {
+            var denyId = "#" + response.bookId + '-deny';
+            var approveId = "#" + response.bookId + '-approve';
+            $("#allBooks").find(approveId).removeClass("approveBtn").addClass("removeBtn").html("<p>Remove Book</p>");
+            denyId.remove();
+        }
+    }
+
+    //jquery deny request function
+    $("#allBooks").on("click", ".denyBtn", function() {
+        var requestUrl = $(this).attr('id');
+        requestUrl = requestUrl.substr(0, requestUrl.length - 5);
+        requestUrl = 'deny/api/' + requestUrl;
+        console.log(requestUrl);
+        ajaxFunctions.ajaxRequest('DELETE', requestUrl, denyRequest);
+    });
+
+    // jquery profile page deny request
+    $("#profileBooks").on("click", ".denyBtn", function() {
+        var requestUrl = $(this).attr('id');
+        requestUrl = requestUrl.substr(0, requestUrl.length - 5);
+        requestUrl = 'deny/api/' + requestUrl;
+        console.log(requestUrl);
+        ajaxFunctions.ajaxRequest('DELETE', requestUrl, denyRequest);
+        // var rsvpUrl = appUrl + "/rsvp/" + barId;
+        // ajaxFunctions.ajaxRequest('POST', rsvpUrl, getRsvp);
+    });
 
     //get search results
     $("#searchForm").bind('submit', function(e) {
