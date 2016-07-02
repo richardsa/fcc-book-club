@@ -189,6 +189,7 @@ function bookHandler() {
                     throw err;
                 }
                 if (result) {
+                  console.log("cancel " + result);
                     res.json(result);
                 } else {
                     res.send({
@@ -214,7 +215,7 @@ function bookHandler() {
                     console.log(JSON.stringify(result));
                     res.json(result);
                 } else {
-                    console.log("error");
+                    //console.log("error");
                     res.send({
                         error: "You do not have any books in your collection"
                     });

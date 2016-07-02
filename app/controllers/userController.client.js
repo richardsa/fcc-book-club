@@ -168,10 +168,10 @@
         var output = "<div class='row'>";
         console.log(response);
         if ('error' in response) {
-            output = "<div class='alert alert-danger'>You do not have any books in your collection. "
+            output = "<div class='alert alert-danger'>You do not have any books in your collection. ";
             output += "<a href='/search'>Search</a> for books to add!</div>";
         } else {
-            output += "<h3>My Books</h3>"
+            output += "<h3>My Books</h3>";
             for (var i = 0; i < response.length; i++) {
                 var cover;
                 var title;
@@ -187,7 +187,7 @@
                 }
                 title = response[i].title;
                 output += "<h3 class='bookTitle'>" + title + "</h3><br />";
-                if (response[i].ownerId === profId && response[i].requestorId === "") {
+                if (response[i].ownerId === profId && (response[i].requestorId === "" || response[i].approvalStatus === "N")) {
                     output += '<div class="btn removeBtn ' + bookId + '" id="' + bookId + '" ><p>Remove Book</p></div>';
 
                 } else if (response[i].ownerId === profId && response[i].requestorId !== "") {
@@ -229,7 +229,8 @@
                 }
                 title = response[i].title;
                 output += "<h3 class='bookTitle'>" + title + "</h3><br />";
-                if (response[i].ownerId === profId && response[i].requestorId === "") {
+                console.log("approval status " + response[i].approvalStatus);
+                if ((response[i].ownerId === profId) && (response[i].requestorId === "" || response[i].approvalStatus === "N")) {
                     output += '<div class="btn removeBtn ' + bookId + '" id="' + bookId + '" ><p>Remove Book</p></div>';
 
                 } else if (response[i].ownerId === profId && response[i].requestorId !== "") {
@@ -241,6 +242,9 @@
                     var requestUrl = appUrl + "/request/api/?bookId=" + bookId + "&requestorId=" + profId;
                     output += '<div class="btn requestedButton ' + bookId + '" id="' + requestUrl + '" ><p>Cancel Request</p></div>';
 
+                } else if (response[i].requestorId === profId && response[i].approvalStatus === "N"){
+                  var requestUrl = appUrl + "/request/api/?bookId=" + bookId + "&requestorId=" + profId;
+                  output += '<div class="btn requestedButton ' + bookId + '" id="' + requestUrl + '" ><p>Request Denied</p></div>';
                 }
                 output += "</div>";
             }
@@ -398,7 +402,7 @@
             alert(response.error);
             return;
         } else if (window.location.pathname === "/profile") {
-            ajaxFunctions.ajaxRequest('GET', appUrl + "/request/api/" + profId, getRequests);
+            ajaxFunctions.ajaxRequest('GET', appUrl + "/profile/api/" + profId, getBooks);
         } else {
             var denyId = "#" + response.bookId + '-deny';
             var approveId = "#" + response.bookId + '-approve';
