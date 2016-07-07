@@ -153,7 +153,8 @@ function bookHandler() {
 
             }, {
                 $set: {
-                    'requestorId': requestorId
+                    'requestorId': requestorId,
+                    'approvalStatus': ""
                 }
             })
             .lean().exec(function(err, result) {
@@ -249,6 +250,33 @@ function bookHandler() {
             });
         
     };
+      //function to accept request  
+    this.approveRequest = function(req, res){
+        var bookId = req.params.id;
+        dbBooks
+            .findOneAndUpdate({
+                'bookId': bookId,
+
+            }, {
+                $set: {
+                    'approvalStatus': "Y"
+                }
+            })
+            .lean().exec(function(err, result) {
+                if (err) {
+                    throw err;
+                }
+                if (result) {
+                    res.json(result);
+                } else {
+                    res.send({
+                        error: "There was an error processing your request"
+                    });
+                }
+            });
+        
+    };
+
 
 }
 
