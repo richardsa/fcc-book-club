@@ -15,7 +15,11 @@ body {
   background-color: #4393B9;
   color: #ffffff;
 }
-.btn{font-size:12px;
+.btn:hover{color: #ffffff;}
+
+.btn{
+  color: #ffffff;
+  font-size:12px;
   min-width:75px;
   background-color: #4393B9;
   margin-left: 10px;
@@ -35,25 +39,23 @@ body {
   cursor: pointer;
 }
 
-.addedButton, .requestedButton, .approveBtn {
+.addedButton, .approveBtn {
   background-color: #008000;
   color: #ffffff;
   cursor: pointer;
 }
 
-.addedButton:hover, .requestedButton:hover, .approveBtn:hover {
-  color: #ffffff!important;
-  
+.addedButton:hover, .approveBtn:hover {
+  color: #ffffff;
   text-decoration: none;
   background-color: #004E00;
 }
-.removeBtn, .denyBtn{
+.removeBtn, .denyBtn, .requestedButton{
   color: #ffffff;
   background-color: #d9534f;
 }
-.removeBtn:hover, .denyBtn:hover{
+.removeBtn:hover, .denyBtn:hover, .requestedButton:hover{
   background-color:#b52b27;
-  color: #ffffff;
   text-decoration: none;
 }
 
