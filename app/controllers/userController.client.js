@@ -257,30 +257,18 @@
         }
         title = response[i].title;
         output += "<h3 class='bookTitle'>" + title + "</h3><br />";
-        if ((response[i].ownerId === profId) && (response[i].requestorId === "" || response[i].approvalStatus === "N")) {
-          output += '<div class="btn removeBtn ' + bookId + '" id="' + bookId + '" ><p>Remove Book</p></div>';
 
-        } else if (response[i].ownerId === profId && response[i].requestorId !== "") {
-          output += '<div class="btn approveBtn ' + bookId + '" id="' + bookId + '-approve" ><p>Approve Request</p></div>';
-          output += '<div class="btn denyBtn ' + bookId + '" id="' + bookId + '-deny" ><p>Deny Request</p></div>';
-
-        }
         if (response[i].requestorId === profId && response[i].approvalStatus === "") {
           var requestUrl = appUrl + "/request/api/?bookId=" + bookId + "&requestorId=" + profId;
           output += '<div class="btn requestedButton ' + bookId + '" id="' + requestUrl + '" ><p>Cancel Request</p></div>';
 
-        } else if (response[i].requestorId === profId && response[i].approvalStatus === "N") {
-          var requestUrl = appUrl + "/request/api/?bookId=" + bookId + "&requestorId=" + profId;
-          output += '<div class="btn requestedButton ' + bookId + '" id="' + requestUrl + '" ><p>Request Denied</p></div>';
-        } else if (response[i].requestorId === profId && response[i].approvalStatus === "Y") {
-          output += '<div class="btn approvedButton ' + bookId + '"><p>Request Approved</p></div>';
         }
         output += "</div>";
       }
 
     }
     output += "</div>";
-    console.log("all requests " + output);
+
     requestedBooks.innerHTML = output;
 
   }
@@ -295,7 +283,7 @@
       //output += "<a href='/search'>Search</a> for books to add!</div>";
     } else {
       output += "<h3>Approved Requests</h3>"
-    
+
 
       for (var i = 0; i < response.length; i++) {
         var cover;
