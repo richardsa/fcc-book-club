@@ -206,7 +206,58 @@ function bookHandler() {
         console.log(profile);
         dbBooks
             .find({
-                'requestorId': profile
+                'requestorId': profile,
+                'approvalStatus': ""
+                
+            })
+            .lean().exec(function(err, result) {
+                if (err) {
+                    throw err;
+                }
+                if (result.length >= 1) {
+                    console.log(JSON.stringify(result));
+                    res.json(result);
+                } else {
+                    //console.log("error");
+                    res.send({
+                        error: "You do not have any books in your collection"
+                    });
+                }
+            });
+    };
+
+		// return denied requests
+
+    this.getDeniedRequests = function(req, res) {
+        var profile = req.params.id;
+        console.log(profile);
+        dbBooks
+            .find({
+                'requestorId': profile,
+                'approvalStatus': "N"
+            })
+            .lean().exec(function(err, result) {
+                if (err) {
+                    throw err;
+                }
+                if (result.length >= 1) {
+                    console.log(JSON.stringify(result));
+                    res.json(result);
+                } else {
+                    //console.log("error");
+                    res.send({
+                        error: "You do not have any books in your collection"
+                    });
+                }
+            });
+    };
+
+		this.getApprovedRequests = function(req, res) {
+        var profile = req.params.id;
+        dbBooks
+            .find({
+                'requestorId': profile,
+                'approvalStatus': "Y"
             })
             .lean().exec(function(err, result) {
                 if (err) {

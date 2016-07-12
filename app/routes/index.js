@@ -6,113 +6,121 @@ var BookHandler = require(path + '/app/controllers/bookHandler.server.js');
 var UserHandler = require(path + '/app/controllers/userHandler.server.js');
 module.exports = function(app, passport) {
 
-    function isLoggedIn(req, res, next) {
-        if (req.isAuthenticated()) {
-            return next();
-        } else {
+  function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    } else {
 
-            res.send(JSON.stringify({
-                error: "you are not logged in."
-            }));
-        }
+      res.send(JSON.stringify({
+        error: "you are not logged in."
+      }));
     }
+  }
 
-    var clickHandler = new ClickHandler();
-    var bookHandler = new BookHandler();
-    var userHandler = new UserHandler();
+  var clickHandler = new ClickHandler();
+  var bookHandler = new BookHandler();
+  var userHandler = new UserHandler();
 
-    app.route('/')
-        .get(function(req, res) {
-            res.sendFile(path + '/public/index.html');
-        });
+  app.route('/')
+    .get(function(req, res) {
+      res.sendFile(path + '/public/index.html');
+    });
 
-    app.route('/search')
-        .get(isLoggedIn, function(req, res) {
-            res.sendFile(path + '/public/search.html');
-        });
+  app.route('/search')
+    .get(isLoggedIn, function(req, res) {
+      res.sendFile(path + '/public/search.html');
+    });
 
-    app.route('/books')
-        .get(isLoggedIn, function(req, res) {
-            res.sendFile(path + '/public/books.html');
-        });
+  app.route('/books')
+    .get(isLoggedIn, function(req, res) {
+      res.sendFile(path + '/public/books.html');
+    });
 
-    app.route('/search/api')
-        .get(isLoggedIn, bookHandler.searchBooks);
+  app.route('/search/api')
+    .get(isLoggedIn, bookHandler.searchBooks);
 
-    app.route('/edit/api')
-        .post(isLoggedIn, userHandler.updateProfile);
-    //add book to collection
-    app.route('/add/api')
-        .post(isLoggedIn, bookHandler.addBook);
+  app.route('/edit/api')
+    .post(isLoggedIn, userHandler.updateProfile);
+  //add book to collection
+  app.route('/add/api')
+    .post(isLoggedIn, bookHandler.addBook);
 
-    //request to borrow book  
-    app.route('/request/api')
-        .post(isLoggedIn, bookHandler.requestBook)
-        .delete(isLoggedIn, bookHandler.cancelRequest);
-    //deny request to borrow book
-    app.route('/deny/api/:id')
-        .delete(isLoggedIn, bookHandler.denyRequest);
-    app.route('/approve/api/:id')
-        .post(isLoggedIn, bookHandler.approveRequest);
+  //request to borrow book  
+  app.route('/request/api')
+    .post(isLoggedIn, bookHandler.requestBook)
+    .delete(isLoggedIn, bookHandler.cancelRequest);
+  //deny request to borrow book
+  app.route('/deny/api/:id')
+    .delete(isLoggedIn, bookHandler.denyRequest);
+  app.route('/approve/api/:id')
+    .post(isLoggedIn, bookHandler.approveRequest);
 
-    app.route('/delete/api/:id')
-        .delete(isLoggedIn, bookHandler.deleteBook);
-
-
-
-    app.route('/login')
-        .get(function(req, res) {
-            res.sendFile(path + '/public/login.html');
-        });
-    app.route('/edit')
-        .get(isLoggedIn, function(req, res) {
-            res.sendFile(path + '/public/edit.html');
-        });
+  app.route('/delete/api/:id')
+    .delete(isLoggedIn, bookHandler.deleteBook);
 
 
-    app.route('/logout')
-        .get(function(req, res) {
-            req.logout();
-            res.redirect('/login');
-        });
 
-    app.route('/profile')
-        .get(isLoggedIn, function(req, res) {
-            res.sendFile(path + '/public/profile.html');
-        });
+  app.route('/login')
+    .get(function(req, res) {
+      res.sendFile(path + '/public/login.html');
+    });
+  app.route('/edit')
+    .get(isLoggedIn, function(req, res) {
+      res.sendFile(path + '/public/edit.html');
+    });
 
-    // return profile books
-    app.route('/profile/api/:id')
-        .get(isLoggedIn, bookHandler.getBooks);
 
-    // return requests
-    app.route('/request/api/:id')
-        .get(isLoggedIn, bookHandler.getRequests);
+  app.route('/logout')
+    .get(function(req, res) {
+      req.logout();
+      res.redirect('/login');
+    });
 
-    // return all books
-    app.route('/books/api')
-        .get(isLoggedIn, bookHandler.getAllBooks);
+  app.route('/profile')
+    .get(isLoggedIn, function(req, res) {
+      res.sendFile(path + '/public/profile.html');
+    });
 
-    app.route('/api/:id')
-        .get(isLoggedIn, function(req, res) {
-            res.json(req.user.github);
-        });
+  // return profile books
+  app.route('/profile/api/:id')
+    .get(isLoggedIn, bookHandler.getBooks);
 
-    app.route('/auth/github')
-        .get(passport.authenticate('github'));
+  // return requests
+  app.route('/request/api/:id')
+    .get(isLoggedIn, bookHandler.getRequests);
 
-    app.route('/auth/github/callback')
-        .get(passport.authenticate('github', {
-            successRedirect: '/',
-            failureRedirect: '/login'
-        }));
+  // return denied requests
+  app.route('/deniedrequests/api/:id')
+    .get(isLoggedIn, bookHandler.getDeniedRequests);
+    
+    // return approved requests
+  app.route('/approvedrequests/api/:id')
+    .get(isLoggedIn, bookHandler.getApprovedRequests);
 
-    app.route('/api/:id/clicks')
-        .get(isLoggedIn, clickHandler.getClicks)
-        .post(isLoggedIn, clickHandler.addClick)
-        .delete(isLoggedIn, clickHandler.resetClicks);
+  // return all books
+  app.route('/books/api')
+    .get(isLoggedIn, bookHandler.getAllBooks);
 
-    //delete tables
-    app.route('/testing')
-        .get(userHandler.getDrop);
+  app.route('/api/:id')
+    .get(isLoggedIn, function(req, res) {
+      res.json(req.user.github);
+    });
+
+  app.route('/auth/github')
+    .get(passport.authenticate('github'));
+
+  app.route('/auth/github/callback')
+    .get(passport.authenticate('github', {
+      successRedirect: '/',
+      failureRedirect: '/login'
+    }));
+
+  app.route('/api/:id/clicks')
+    .get(isLoggedIn, clickHandler.getClicks)
+    .post(isLoggedIn, clickHandler.addClick)
+    .delete(isLoggedIn, clickHandler.resetClicks);
+
+  //delete tables
+  app.route('/testing')
+    .get(userHandler.getDrop);
 };
