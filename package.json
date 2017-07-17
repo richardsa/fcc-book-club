@@ -18,6 +18,9 @@
     "javascript",
     "boilerplate"
   ],
+  "engines": {
+    "node": "4.8.4"
+  },
   "scripts": {
     "start": "node server.js"
   },
